@@ -1,0 +1,110 @@
+{{define "admin_cars.html"}}{{template "layout.html" .}}{{end}}
+
+{{define "admin_cars_content"}}
+<div class="page-title">
+  <div>
+    <h2>Admin | Cars</h2>
+    <p>Create, edit, delete and upload car photos.</p>
+  </div>
+</div>
+
+{{if .Flash}}
+<div class="card">
+  <p style="margin:0;">{{.Flash}}</p>
+</div>
+{{end}}
+{{if .Error}}
+<div class="alert">{{.Error}}</div>
+{{end}}
+
+<div class="grid-2">
+  <form method="post" action="{{if .EditCar}}/admin/cars/{{.EditCar.ID}}/update{{else}}/admin/cars{{end}}" class="form" enctype="multipart/form-data">
+    <div class="form-group">
+      <label>Brand</label>
+      <input type="text" name="brand" value="{{if .EditCar}}{{.EditCar.Brand}}{{end}}" required />
+    </div>
+    <div class="form-group">
+      <label>Model</label>
+      <input type="text" name="model" value="{{if .EditCar}}{{.EditCar.Model}}{{end}}" required />
+    </div>
+    <div class="form-group">
+      <label>Year</label>
+      <input type="number" name="year" value="{{if .EditCar}}{{.EditCar.Year}}{{end}}" required />
+    </div>
+    <div class="form-group">
+      <label>Engine Volume (cc)</label>
+      <input type="number" name="engine_volume" value="{{if .EditCar}}{{.EditCar.EngineVolume}}{{end}}" required />
+    </div>
+    <div class="form-group">
+      <label>Engine Type</label>
+      <input type="text" name="engine_type" value="{{if .EditCar}}{{.EditCar.EngineType}}{{end}}" required />
+    </div>
+    <div class="form-group">
+      <label>Base Price</label>
+      <input type="number" step="0.01" name="base_price" value="{{if .EditCar}}{{printf "%.2f" .EditCar.BasePrice}}{{end}}" required />
+    </div>
+    <div class="form-group">
+      <label>Country</label>
+      <select name="country_id" required>
+        {{range .Countries}}
+        <option value="{{.ID}}" {{if and $.EditCar (eq $.EditCar.CountryID .ID)}}selected{{end}}>{{.Name}}</option>
+        {{end}}
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Photo</label>
+      <input type="file" name="image" accept=".jpg,.jpeg,.png,.webp" />
+    </div>
+
+    <button type="submit">{{if .EditCar}}Update Car{{else}}Add Car{{end}}</button>
+    {{if .EditCar}}
+    <a class="btn ghost" href="/admin/cars">Cancel Edit</a>
+    {{end}}
+  </form>
+
+  <div class="card">
+    <h3 style="margin-top:0;">Current cars</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Photo</th>
+          <th>Brand</th>
+          <th>Model</th>
+          <th>Year</th>
+          <th>Price</th>
+          <th>Country</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range .Cars}}
+        <tr>
+          <td>{{.ID}}</td>
+          <td>
+            {{if .ImageURL}}
+              <img src="{{.ImageURL}}" alt="{{.Brand}}" style="width:68px;height:44px;object-fit:cover;border-radius:8px;" />
+            {{else}}
+              <span class="pill">No photo</span>
+            {{end}}
+          </td>
+          <td>{{.Brand}}</td>
+          <td>{{.Model}}</td>
+          <td>{{.Year}}</td>
+          <td>{{printf "%.2f" .BasePrice}}</td>
+          <td>{{.CountryName}}</td>
+          <td>
+            <a class="link" href="/admin/cars?edit_id={{.ID}}">Edit</a>
+            <form method="post" action="/admin/cars/{{.ID}}/delete" class="inline" style="margin-left:8px;">
+              <button type="submit" class="btn-danger" style="padding:6px 8px;">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {{else}}
+        <tr><td colspan="8">No cars.</td></tr>
+        {{end}}
+      </tbody>
+    </table>
+  </div>
+</div>
+{{end}}

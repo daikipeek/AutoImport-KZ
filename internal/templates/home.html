@@ -1,0 +1,33 @@
+{{define "home.html"}}{{template "layout.html" .}}{{end}}
+
+{{define "home_content"}}
+<section class="hero">
+  <span class="hero-kicker">Planning import to KZ</span>
+  <h1>Estimate Import Price Before You Buy the Car</h1>
+  <p>
+    Calculate customs duty, delivery, service and recycling fees in one screen,
+    then save your history to compare options.
+  </p>
+
+  <div class="actions">
+    <a class="btn primary" href="/calculator">Start Calculation</a>
+    <a class="btn secondary" href="/cars">Browse Cars</a>
+    <a class="btn ghost" href="/history">My History</a>
+  </div>
+</section>
+
+<section class="feature-grid">
+  <article class="feature-card">
+    <h3>Clear Breakdown</h3>
+    <p>See exact numbers for base price, customs, delivery, service and recycling fees.</p>
+  </article>
+  <article class="feature-card">
+    <h3>Warnings Engine</h3>
+    <p>Alerts for high engine volume and old model years that increase import risk.</p>
+  </article>
+  <article class="feature-card">
+    <h3>Admin Control</h3>
+    <p>Manage countries, rates and cars from built-in admin pages.</p>
+  </article>
+</section>
+{{end}}

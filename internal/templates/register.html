@@ -1,0 +1,39 @@
+{{define "register.html"}}{{template "layout.html" .}}{{end}}
+
+{{define "register_content"}}
+<div class="page-narrow">
+  <div class="page-head">
+    <div class="page-icon">SIGN UP</div>
+    <h2>Create Account</h2>
+    <p>Join AutoImport KZ and start calculating import costs</p>
+  </div>
+
+  {{if .Error}}
+    <div class="alert">{{.Error}}</div>
+  {{end}}
+
+  <form method="post" action="/auth/register" class="form">
+    <div class="form-group">
+      <label>Full name</label>
+      <input type="text" name="name" placeholder="John Doe" required />
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" name="email" placeholder="you@example.com" required />
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" name="password" placeholder="********" required />
+    </div>
+
+    <button type="submit">Create Account</button>
+  </form>
+
+  <div class="page-foot">
+    <span>Already have an account?</span>
+    <a class="link" href="/login">Sign in -></a>
+  </div>
+</div>
+{{end}}

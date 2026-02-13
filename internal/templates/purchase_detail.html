@@ -1,0 +1,46 @@
+{{define "purchase_detail.html"}}{{template "layout.html" .}}{{end}}
+
+{{define "purchase_detail_content"}}
+<div class="page-title">
+  <div>
+    <h2>Purchase #{{.Item.ID}}</h2>
+    <p>Track payment and delivery status.</p>
+  </div>
+</div>
+
+{{if .Flash}}
+<div class="card">
+  <p style="margin:0;">{{.Flash}}</p>
+</div>
+{{end}}
+
+<div class="grid-2">
+  <div class="card">
+    <h3>{{.Item.Car.Brand}} {{.Item.Car.Model}}</h3>
+    <p>{{.Item.Car.Year}} | {{.Item.Car.EngineVolume}}cc {{.Item.Car.EngineType}}</p>
+    <p>Country: {{.Item.Car.CountryName}}</p>
+    <p>Status: <strong>{{.Item.Status}}</strong></p>
+    <p>Price: <strong>${{printf "%.2f" .Item.Price}}</strong></p>
+    <p>Date: {{.Item.CreatedAt.Format "2006-01-02 15:04"}}</p>
+  </div>
+
+  <div class="card">
+    <h3>Actions</h3>
+    {{if and (eq .Item.Status "created") (eq .Item.UserID .User.ID)}}
+    <form method="post" action="/purchases/{{.Item.ID}}/pay" class="inline">
+      <button type="submit" class="btn primary">Mark as Paid</button>
+    </form>
+    {{end}}
+
+    {{if and (eq .Item.Status "paid") (eq .User.Role "admin")}}
+    <form method="post" action="/admin/purchases/{{.Item.ID}}/deliver" class="inline">
+      <button type="submit" class="btn secondary">Mark as Delivered (Admin)</button>
+    </form>
+    {{end}}
+
+    <div style="margin-top:12px;">
+      <a class="link" href="/purchases">Back to purchases</a>
+    </div>
+  </div>
+</div>
+{{end}}

@@ -1,0 +1,46 @@
+@startuml
+class User {
+  ID: int64
+  Name: string
+  Email: string
+  PasswordHash: string
+  Role: string
+}
+
+class Country {
+  ID: int64
+  Name: string
+  CustomsRate: float64
+  DeliveryCost: float64
+}
+
+class Car {
+  ID: int64
+  Brand: string
+  Model: string
+  Year: int
+  EngineVolume: int
+  EngineType: string
+  BasePrice: float64
+  CountryID: int64
+}
+
+class Calculation {
+  ID: int64
+  UserID: int64
+  CarID: int64
+  TotalPrice: float64
+  CreatedAt: time.Time
+}
+
+class Warning {
+  ID: int64
+  CalculationID: int64
+  Message: string
+}
+
+User "1" -- "*" Calculation
+Car "1" -- "*" Calculation
+Calculation "1" -- "*" Warning
+Country "1" -- "*" Car
+@enduml

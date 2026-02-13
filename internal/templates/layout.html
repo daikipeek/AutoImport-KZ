@@ -1,0 +1,80 @@
+{{define "layout.html"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{.Title}}</title>
+  <link rel="stylesheet" href="/static/styles/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-mark">AIKZ</div>
+        <div class="brand-text">
+          <div class="brand-title">AutoImport KZ</div>
+          <div class="brand-sub">Kazakhstan Car Import Estimator</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/cars">Cars</a>
+        <a class="nav-link" href="/dashboard">Dashboard</a>
+        <a class="nav-link" href="/calculator">Calculator</a>
+        <a class="nav-link" href="/history">History</a>
+        <a class="nav-link" href="/purchases">Purchases</a>
+        <a class="nav-link" href="/me">Profile</a>
+        <a class="nav-link" href="/admin/cars">Admin Cars</a>
+        <a class="nav-link" href="/admin/countries">Admin Countries</a>
+
+        <form action="/auth/logout" method="post" class="inline">
+          <button type="submit">Logout</button>
+        </form>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {{if eq .ContentTemplate "home_content"}}
+      {{template "home_content" .}}
+    {{else if eq .ContentTemplate "login_content"}}
+      {{template "login_content" .}}
+    {{else if eq .ContentTemplate "register_content"}}
+      {{template "register_content" .}}
+    {{else if eq .ContentTemplate "cars_list_content"}}
+      {{template "cars_list_content" .}}
+    {{else if eq .ContentTemplate "car_detail_content"}}
+      {{template "car_detail_content" .}}
+    {{else if eq .ContentTemplate "calculator_content"}}
+      {{template "calculator_content" .}}
+    {{else if eq .ContentTemplate "history_content"}}
+      {{template "history_content" .}}
+    {{else if eq .ContentTemplate "dashboard_content"}}
+      {{template "dashboard_content" .}}
+    {{else if eq .ContentTemplate "purchases_content"}}
+      {{template "purchases_content" .}}
+    {{else if eq .ContentTemplate "purchase_detail_content"}}
+      {{template "purchase_detail_content" .}}
+    {{else if eq .ContentTemplate "admin_cars_content"}}
+      {{template "admin_cars_content" .}}
+    {{else if eq .ContentTemplate "admin_countries_content"}}
+      {{template "admin_countries_content" .}}
+    {{else if eq .ContentTemplate "profile_content"}}
+      {{template "profile_content" .}}
+    {{else}}
+      <div class="card">
+        <h2>Template not selected</h2>
+        <p>ContentTemplate is empty or unknown.</p>
+      </div>
+    {{end}}
+  </main>
+
+  <footer class="site-footer">
+    <small>AutoImport KZ | Go + Postgres</small>
+    <small>AIKZ</small>
+  </footer>
+</body>
+</html>
+{{end}}

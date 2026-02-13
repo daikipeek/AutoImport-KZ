@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+actor User
+actor Admin
+
+rectangle "AutoImport KZ" {
+  usecase "Register" as UC1
+  usecase "Login" as UC2
+  usecase "Browse Cars" as UC3
+  usecase "View Car Details" as UC4
+  usecase "Calculate Import Cost" as UC5
+  usecase "View History" as UC6
+  usecase "Manage Cars" as UC7
+  usecase "Manage Countries" as UC8
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+Admin --> UC7
+Admin --> UC8
+@enduml

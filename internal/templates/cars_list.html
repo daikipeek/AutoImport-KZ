@@ -1,0 +1,43 @@
+{{define "cars_list.html"}}{{template "layout.html" .}}{{end}}
+
+{{define "cars_list_content"}}
+<div class="page-title">
+  <div>
+    <h2>Cars Catalog</h2>
+    <p>Open any car card to see details and start calculation.</p>
+  </div>
+  <div class="page-actions">
+    <a class="btn secondary" href="/calculator">Open Calculator</a>
+  </div>
+</div>
+
+<div class="cars-grid">
+  {{range .Cars}}
+  <a class="car-card" href="/cars/{{.ID}}">
+    <div class="car-card-media">
+      <img
+        src="{{if .ImageURL}}{{.ImageURL}}{{else}}https://picsum.photos/seed/car-{{.ID}}/900/540{{end}}"
+        alt="{{.Brand}} {{.Model}}"
+        loading="lazy"
+        onerror="this.onerror=null; this.src='https://picsum.photos/seed/car-{{.ID}}/900/540';"
+      />
+      <div class="car-badge">{{.Year}}</div>
+    </div>
+
+    <div class="car-card-body">
+      <div class="car-title">{{.Brand}} {{.Model}}</div>
+      <div class="car-meta">{{.EngineVolume}} cc | {{.EngineType}}</div>
+
+      <div class="car-row">
+        <div class="car-price">${{printf "%.0f" .BasePrice}}</div>
+        <div class="car-country">{{.CountryName}}</div>
+      </div>
+    </div>
+  </a>
+  {{else}}
+  <div class="card">
+    <p style="margin:0;">No cars available.</p>
+  </div>
+  {{end}}
+</div>
+{{end}}

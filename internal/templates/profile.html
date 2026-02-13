@@ -1,0 +1,48 @@
+{{define "profile.html"}}{{template "layout.html" .}}{{end}}
+
+{{define "profile_content"}}
+<div class="page-title">
+  <div>
+    <h2>My Profile</h2>
+    <p>Account information.</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="result-card">
+    <div class="result-title">Name</div>
+    <div class="result-value" style="font-size:26px;">{{.User.Name}}</div>
+
+    <div class="spec-list">
+      <div class="spec-row">
+        <span class="spec-k">Email</span>
+        <span class="spec-v">{{.User.Email}}</span>
+      </div>
+
+      <div class="spec-row">
+        <span class="spec-k">Role</span>
+        <span class="spec-v">
+          {{if eq .User.Role "admin"}}
+            <span class="badge badge-admin">Administrator</span>
+          {{else}}
+            <span class="badge badge-user">User</span>
+          {{end}}
+        </span>
+      </div>
+    </div>
+
+    <form action="/auth/logout" method="post" class="inline" style="margin-top:14px;">
+      <button type="submit" class="btn-danger">Logout</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0;">Quick actions</h3>
+    <div class="actions">
+      <a class="btn primary" href="/calculator">New Calculation</a>
+      <a class="btn secondary" href="/history">View History</a>
+      <a class="btn ghost" href="/cars">Browse Cars</a>
+    </div>
+  </div>
+</div>
+{{end}}

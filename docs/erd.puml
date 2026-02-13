@@ -1,0 +1,51 @@
+@startuml
+entity "users" as users {
+  * id : BIGSERIAL
+  --
+  name : TEXT
+  email : TEXT
+  password_hash : TEXT
+  role : TEXT
+}
+
+entity "countries" as countries {
+  * id : BIGSERIAL
+  --
+  name : TEXT
+  customs_rate : NUMERIC
+  delivery_cost : NUMERIC
+}
+
+entity "cars" as cars {
+  * id : BIGSERIAL
+  --
+  brand : TEXT
+  model : TEXT
+  year : INT
+  engine_volume : INT
+  engine_type : TEXT
+  base_price : NUMERIC
+  country_id : BIGINT
+}
+
+entity "calculations" as calculations {
+  * id : BIGSERIAL
+  --
+  user_id : BIGINT
+  car_id : BIGINT
+  total_price : NUMERIC
+  created_at : TIMESTAMP
+}
+
+entity "warnings" as warnings {
+  * id : BIGSERIAL
+  --
+  calculation_id : BIGINT
+  message : TEXT
+}
+
+users ||--o{ calculations : "has"
+cars ||--o{ calculations : "used in"
+calculations ||--o{ warnings : "has"
+countries ||--o{ cars : "source"
+@enduml

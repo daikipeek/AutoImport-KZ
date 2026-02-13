@@ -1,0 +1,50 @@
+{{define "purchases.html"}}{{template "layout.html" .}}{{end}}
+
+{{define "purchases_content"}}
+<div class="page-title">
+  <div>
+    <h2>My Purchases</h2>
+    <p>Cars you have purchased in the system.</p>
+  </div>
+</div>
+
+{{if .Flash}}
+<div class="card">
+  <p style="margin:0;">{{.Flash}}</p>
+</div>
+{{end}}
+
+<div class="stack">
+  {{range .Items}}
+  <div class="result-card">
+    <div class="history-head">
+      <div>
+        <div class="history-car">{{.Car.Brand}} {{.Car.Model}}</div>
+        <div class="history-sub">{{.Car.Year}} | {{.Car.EngineVolume}}cc {{.Car.EngineType}}</div>
+      </div>
+      <div class="history-right">
+        <div class="history-date">{{.CreatedAt.Format "2006-01-02 15:04"}}</div>
+        <div class="history-total">${{printf "%.0f" .Price}}</div>
+      </div>
+    </div>
+
+    <div class="spec-list">
+      <div class="spec-row">
+        <span class="spec-k">Country</span>
+        <span class="spec-v">{{.Car.CountryName}}</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-k">Status</span>
+        <span class="spec-v">{{.Status}} | <a class="link" href="/purchases/{{.ID}}">details</a></span>
+      </div>
+    </div>
+  </div>
+  {{else}}
+  <div class="card center">
+    <h3>No purchases yet</h3>
+    <p>You can buy a car from the car detail page.</p>
+    <a class="btn primary" href="/cars">Open Cars</a>
+  </div>
+  {{end}}
+</div>
+{{end}}

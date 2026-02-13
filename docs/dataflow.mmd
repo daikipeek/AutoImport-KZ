@@ -1,0 +1,8 @@
+flowchart TD
+  User[User] -->|Register/Login| Web[Web App]
+  Web -->|Auth Session| DB[(PostgreSQL)]
+  User -->|Browse Cars| Web
+  Web -->|Read Cars/Countries| DB
+  User -->|Calculate| Web
+  Web -->|Save Calculation & Warnings| DB
+  Admin[Admin] -->|Manage Cars/Countries| Web

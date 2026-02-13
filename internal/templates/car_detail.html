@@ -1,0 +1,58 @@
+{{define "car_detail.html"}}{{template "layout.html" .}}{{end}}
+
+{{define "car_detail_content"}}
+<div class="page-title">
+  <div>
+    <a class="link" href="/cars"><- Back to catalog</a>
+    <h2>{{.Car.Brand}} {{.Car.Model}}</h2>
+    <p>All specs, base price and quick import calculation.</p>
+  </div>
+  <div class="page-actions">
+    <a class="btn primary" href="/calculator?car_id={{.Car.ID}}">Calculate Import -></a>
+    <a class="btn ghost" href="/cars">More Cars</a>
+  </div>
+</div>
+
+<div class="car-detail">
+  <div class="car-detail-media">
+    <div class="car-photo">
+      <img
+        src="{{if .Car.ImageURL}}{{.Car.ImageURL}}{{else}}https://picsum.photos/seed/car-detail-{{.Car.ID}}/1200/700{{end}}"
+        alt="{{.Car.Brand}} {{.Car.Model}}"
+        loading="lazy"
+        onerror="this.onerror=null; this.src='https://picsum.photos/seed/car-detail-{{.Car.ID}}/1200/700';"
+      />
+    </div>
+  </div>
+
+  <div class="car-detail-info">
+    <div class="result-card">
+      <div class="result-title">Base price</div>
+      <div class="result-value">{{printf "%.0f" .Car.BasePrice}} USD</div>
+
+      <div class="spec-list">
+        <div class="spec-row">
+          <span class="spec-k">Year</span>
+          <span class="spec-v">{{.Car.Year}}</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k">Engine</span>
+          <span class="spec-v">{{.Car.EngineVolume}} cc ({{.Car.EngineType}})</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k">Country</span>
+          <span class="spec-v">{{.Car.CountryName}}</span>
+        </div>
+      </div>
+
+      <div class="actions" style="margin-top:14px;">
+        <a class="btn primary" href="/calculator?car_id={{.Car.ID}}">Start Calculation</a>
+        <a class="btn secondary" href="/history">My History</a>
+        <form action="/cars/{{.Car.ID}}/buy" method="post" class="inline">
+          <button type="submit" class="btn">Buy this Car</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}

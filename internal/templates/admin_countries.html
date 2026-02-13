@@ -1,0 +1,79 @@
+{{define "admin_countries.html"}}{{template "layout.html" .}}{{end}}
+
+{{define "admin_countries_content"}}
+<div class="page-title">
+  <div>
+    <h2>Admin | Countries</h2>
+    <p>Manage customs rate and delivery costs per country.</p>
+  </div>
+  <div class="page-actions">
+    <div class="pill">Active: <strong>{{len .Countries}}</strong></div>
+  </div>
+</div>
+
+{{if .Flash}}
+<div class="card">
+  <p style="margin:0;">{{.Flash}}</p>
+</div>
+{{end}}
+{{if .Error}}
+<div class="alert">{{.Error}}</div>
+{{end}}
+
+<div class="grid-2">
+  <form method="post" action="{{if .EditCountry}}/admin/countries/{{.EditCountry.ID}}/update{{else}}/admin/countries{{end}}" class="form">
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" name="name" value="{{if .EditCountry}}{{.EditCountry.Name}}{{end}}" required />
+    </div>
+
+    <div class="form-group">
+      <label>Customs Rate</label>
+      <input type="number" step="0.01" name="customs_rate" value="{{if .EditCountry}}{{printf "%.2f" .EditCountry.CustomsRate}}{{end}}" required />
+    </div>
+
+    <div class="form-group">
+      <label>Delivery Cost</label>
+      <input type="number" step="0.01" name="delivery_cost" value="{{if .EditCountry}}{{printf "%.2f" .EditCountry.DeliveryCost}}{{end}}" required />
+    </div>
+
+    <button type="submit">{{if .EditCountry}}Update Country{{else}}Add Country{{end}}</button>
+    {{if .EditCountry}}
+    <a class="btn ghost" href="/admin/countries">Cancel Edit</a>
+    {{end}}
+  </form>
+
+  <div class="card">
+    <h3 style="margin-top:0;">Current countries</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Customs Rate</th>
+          <th>Delivery Cost</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range .Countries}}
+        <tr>
+          <td>{{.ID}}</td>
+          <td>{{.Name}}</td>
+          <td>{{printf "%.2f" .CustomsRate}}</td>
+          <td>{{printf "%.2f" .DeliveryCost}}</td>
+          <td>
+            <a class="link" href="/admin/countries?edit_id={{.ID}}">Edit</a>
+            <form method="post" action="/admin/countries/{{.ID}}/delete" class="inline" style="margin-left:8px;">
+              <button type="submit" class="btn-danger" style="padding:6px 8px;">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {{else}}
+        <tr><td colspan="5">No countries.</td></tr>
+        {{end}}
+      </tbody>
+    </table>
+  </div>
+</div>
+{{end}}

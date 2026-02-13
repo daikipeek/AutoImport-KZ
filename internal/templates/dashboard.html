@@ -1,0 +1,57 @@
+{{define "dashboard.html"}}{{template "layout.html" .}}{{end}}
+
+{{define "dashboard_content"}}
+<div class="page-title">
+  <div>
+    <h2>Dashboard</h2>
+    <p>Quick overview of activity and key numbers.</p>
+  </div>
+</div>
+
+{{if .Flash}}
+<div class="card">
+  <p style="margin:0;">{{.Flash}}</p>
+</div>
+{{end}}
+
+<div class="cars-grid">
+  <div class="card"><h3>Cars</h3><p>{{.Summary.CarsCount}}</p></div>
+  <div class="card"><h3>Countries</h3><p>{{.Summary.CountriesCount}}</p></div>
+  <div class="card"><h3>Calculations</h3><p>{{.Summary.CalculationsCount}}</p></div>
+  <div class="card"><h3>Purchases</h3><p>{{.Summary.PurchasesCount}}</p></div>
+  {{if eq .User.Role "admin"}}
+  <div class="card"><h3>Users</h3><p>{{.Summary.UsersCount}}</p></div>
+  <div class="card"><h3>Avg Purchase</h3><p>${{printf "%.2f" .Summary.AveragePurchaseSum}}</p></div>
+  {{end}}
+</div>
+
+{{if and (eq .User.Role "admin") .Summary.RecentPurchases}}
+<div class="card" style="margin-top:14px;">
+  <h3>Recent Purchases</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Car</th>
+        <th>Status</th>
+        <th>Price</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Summary.RecentPurchases}}
+      <tr>
+        <td><a class="link" href="/purchases/{{.ID}}">#{{.ID}}</a></td>
+        <td>{{.UserName}}</td>
+        <td>{{.Car.Brand}} {{.Car.Model}}</td>
+        <td>{{.Status}}</td>
+        <td>${{printf "%.0f" .Price}}</td>
+        <td>{{.CreatedAt.Format "2006-01-02 15:04"}}</td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+</div>
+{{end}}
+{{end}}

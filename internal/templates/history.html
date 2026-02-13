@@ -1,0 +1,55 @@
+{{define "history.html"}}{{template "layout.html" .}}{{end}}
+
+{{define "history_content"}}
+<div class="page-title">
+  <div>
+    <h2>Calculation History</h2>
+    <p>Your previous import cost calculations.</p>
+  </div>
+  <div class="page-actions">
+    <a class="btn primary" href="/calculator">New Calculation</a>
+  </div>
+</div>
+
+<div class="stack">
+  {{range .Calculations}}
+  <div class="result-card">
+    <div class="history-head">
+      <div>
+        <div class="history-car">{{.Car.Brand}} {{.Car.Model}}</div>
+        <div class="history-sub">{{.Car.Year}} | {{.Car.EngineVolume}}cc {{.Car.EngineType}}</div>
+      </div>
+      <div class="history-right">
+        <div class="history-date">{{.CreatedAt.Format "2006-01-02 15:04"}}</div>
+        <div class="history-total">${{printf "%.0f" .TotalPrice}}</div>
+      </div>
+    </div>
+
+    <div class="spec-list">
+      <div class="spec-row">
+        <span class="spec-k">Country</span>
+        <span class="spec-v">{{.Country.Name}}</span>
+      </div>
+    </div>
+
+    {{if .Warnings}}
+    <div class="warnings" style="margin-top:12px;">
+      <div class="warn-title">Warnings</div>
+      <ul class="warn-list">
+        {{range .Warnings}}
+          <li>{{.Message}}</li>
+        {{end}}
+      </ul>
+    </div>
+    {{end}}
+  </div>
+  {{else}}
+  <div class="card center">
+    <div class="empty-icon">EMPTY</div>
+    <h3>No calculations yet</h3>
+    <p>Start with your first import cost calculation.</p>
+    <a class="btn primary" href="/calculator">Start -></a>
+  </div>
+  {{end}}
+</div>
+{{end}}
